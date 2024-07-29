@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  mysql-container:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: udaya
+      MYSQL_DATABASE: studentdb1
+    ports:
+      - "3307:3306"
+    networks:
+      - student-network
+
+  student-service:
+    build: .
+    image: student-service:latest
+    ports:
+      - "9011:9010"
+    depends_on:
+      - mysql-container
+    networks:
+      - student-network
+
+networks:
+  student-network:
+    driver: bridge
